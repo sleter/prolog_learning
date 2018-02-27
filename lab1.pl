@@ -8,9 +8,9 @@ kobieta(iza).
 mezczyzna(adam).
 mezczyzna(piotr).
 mezczyzna(pawel).
+mezczyzna(roman).
 mezczyzna(jan).
 mezczyzna(tomasz).
-mezczyzna(roman).
 
 rodzic(adam,ala).
 rodzic(adam,piotr).
@@ -24,10 +24,10 @@ rodzic(jan,tomasz).
 rodzic(jan,anna).
 rodzic(marta,tomasz).
 rodzic(marta,anna).
-rodzic(ola,roman).
-rodzic(tomasz,roman).
 rodzic(pawel,iza).
 rodzic(anna,iza).
+rodzic(tomasz,roman).
+rodzic(ola,roman).
 
 matka(X,Y):-
 	kobieta(X),
@@ -37,26 +37,64 @@ ojciec(X,Y):-
 	mezczyzna(X),
 	rodzic(X,Y).
 
-syn(Rodzic,Syn):-
-	mezczyzna(Syn),
-	rodzic(Rodzic,Syn).
+syn(X,Y):-
+	mezczyzna(X),
+	rodzic(Y,X).
 
 corka(X,Y):-
-	kobieta(Y),
-	rodzic(X,Y).
+	kobieta(X),
+	rodzic(Y,X).
 
 brat(X,Y):-
-	rodzic(Z,X),
-	rodzic(Z,Y),
-	mezczyzna(Y).
+	matka(Z,X),
+	matka(Z,Y),
+	ojciec(P,X),
+	ojciec(P,Y),
+	mezczyzna(X),
+	X\=Y.
 
 siostra(X,Y):-
-	rodzic(Z,X),
-	rodzic(Z,Y),
-	kobieta(Y).
+	matka(Z,X),
+	matka(Z,Y),
+	ojciec(P,X),
+	ojciec(P,Y),
+	kobieta(X),
+	X\=Y.
 
 rodzenstwo(X,Y):-
-	brat(X,Y).
-
-rodzenstwo(X,Y):-
+	brat(X,Y);
 	siostra(X,Y).
+
+ciocia(X,Y):-
+	kobieta(X),
+	siostra(X,Z),
+	rodzic(Z,Y).
+
+wujek(X,Y):-
+	mezczyzna(X),
+	brat(X,Z),
+	rodzic(Z,Y).
+
+kuzyn(X,Y):-
+	mezczyzna(X),
+	rodzic(R,X),
+	rodzic(P,Y),
+	rodzenstwo(R,P).
+
+kuzynka(X,Y):-
+	kobieta(X),
+	rodzic(R,X),
+	rodzic(P,Y),
+	rodzenstwo(R,P).
+
+babcia(X,Y):-
+	kobieta(X),
+	rodzic(R,Y),
+	matka(X,R).
+
+dziadek(X,Y):-
+	mezczyzna(X),
+	rodzic(R,Y),
+	ojciec(X,R).
+
+
