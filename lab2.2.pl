@@ -52,14 +52,14 @@ fib(X, Z) :-
 	fib(N2, N4),
 	Z is N3 + N4.
 
-ifib(0,0).
+ifib(0,1).
 ifib(X,Y):-
 	X>0,
 	ifib(X,Y,_).
-ifib(1,1,0).
+ifib(1,1,1).
 ifib(X,Y1,Y2):-
 	X>1,
-X1 is X-1,
-fib(X1,Y2,Y3),
-Y1 is Y2 + Y3.
+	X1 is X-1,
+	ifib(X1,Y2,Y3),
+	Y1 is Y2 + Y3.
 	
