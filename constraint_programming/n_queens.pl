@@ -1,9 +1,9 @@
 :- use_module(library(clpfd)).
  
 nq(N, Queens) :-
-   length(Queens, N),
-   Queens ins 1..N,
-   dont_cross(Queens),
+    length(Queens, N),
+    Queens ins 1..N,
+    dont_cross(Queens),
     labeling([ff], Queens).
 
 dont_cross([]).
